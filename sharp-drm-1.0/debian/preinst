@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+# Check for old module
+if modprobe -n sharp 2>/dev/null; then
+	echo "error: please uninstall the old development sharp module"
+	exit 1
+fi

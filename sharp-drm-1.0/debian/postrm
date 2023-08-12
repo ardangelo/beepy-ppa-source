@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Remove auto-load module line and create a backup file
+sed -i.save '/sharp-drm/d' /etc/modules
+
+# Remove configuration line and create a backup file
+sed -i.save '/dtoverlay=sharp-drm/d' /boot/config.txt
+
+# Remove device tree overlay
+rm -f /boot/overlays/sharp-drm.dtbo
