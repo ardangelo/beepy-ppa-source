@@ -1,0 +1,13 @@
+PACKAGE_NAME="beepy-kbd"
+PACKAGE_VERSION="#MODULE_VERSION#"
+AUTOINSTALL="yes"
+
+BUILD_DIR="${dkms_tree}/${PACKAGE_NAME}/${PACKAGE_VERSION}/build"
+SRC_DIR="${dkms_tree}/${PACKAGE_NAME}/${PACKAGE_VERSION}/source"
+
+BUILT_MODULE_NAME[0]="$PACKAGE_NAME"
+DEST_MODULE_LOCATION[0]="/updates/dkms"
+
+# Hack because Debian DKMS packaging scripts break POST_INSTALL
+MAKE[0]="make -C ${kernel_source_dir} M=$BUILD_DIR \
+	&& make -C $SRC_DIR install_aux BUILD_DIR=$BUILD_DIR"

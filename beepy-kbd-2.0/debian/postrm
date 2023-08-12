@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Remove auto-load module line and create a backup file
+sed -i.save '/beepy-kbd/d' /etc/modules
+
+# Remove configuration line and create a backup file
+sed -i.save '/dtoverlay=beepy-kbd,irq_pin=4/d' /boot/config.txt
+
+# Remove device tree overlay
+rm -f /boot/overlays/beepy-kbd.dtbo
+
+# Remove keymap
+rm -f /usr/local/share/kbd/keymaps/beepy-kbd.map

@@ -1,0 +1,3 @@
+[submodule "keyboard-driver_2.0-1_armhf/module"]
+	path = beepy-kbd-2.0/module
+	url = git@github.com:ardangelo/beepberry-keyboard-driver.git

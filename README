@@ -1,0 +1,3 @@
+Package sources for Beepy software
+
+Run `dpkg-buildpackage -us -uc` in the package directory to generate a `deb` package

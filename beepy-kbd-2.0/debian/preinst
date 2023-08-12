@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+MODULE_NAME=beepy_kbd
+VER_REG=0x01
+REQ_MAJOR=2
+SUG_MINOR=0
+RELEASE_PAGE="https://github.com/ardangelo/beepberry-rp2040/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
+
+# Check for old module
+if modprobe -n bbqX0kbd 2>/dev/null; then
+	echo "error: please uninstall the old development bbqX0kbd module"
+	exit 1
+fi
+
+# Get firmware version
+if grep "^$MODULE_NAME " /proc/modules >/dev/null; then
+	rmmod $MODULE_NAME 2>/dev/null \
+		|| echo "warning: $MODULE_NAME failed to unload"
+fi
+if ! raw_ver=$(i2cget -y 1 0x1F $VER_REG b); then
+	echo "error: failed to check firmware version (i2cget failed)"
+	exit 1
+fi
+if modprobe -n $MODULE_NAME 2>/dev/null; then
+	modprobe $MODULE_NAME 2>/dev/null \
+		|| echo "warning: $MODULE_NAME failed to load"
+fi
+
+# Parse firmware version
+major=${raw_ver:2:1}
+minor=${raw_ver:3:1}
+
+# Check firmware version
+if [ $major -ne $REQ_MAJOR ]; then
+	echo "error: driver requires major firmware version $REQ_MAJOR" \
+		"(firmware has version $major.$minor)"
+	echo -e "install the matching firmware release from\n    $RELEASE_PAGE"
+	exit 1
+fi
+if [ $minor -lt $SUG_MINOR ]; then
+	echo "warning: installed firmware version $major.$minor is compatible," \
+		"but out of date (driver may use features from version $REQ_MAJOR.$SUG_MINOR)"
+	echo -e "consider installing the matching firmware release from\n    $RELEASE_PAGE"
+fi
+
+echo "Firmware version $major.$minor passes module requirement"

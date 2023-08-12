@@ -1,0 +1,9 @@
+Source: beepy-kbd
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11), dkms
+
+Package: beepy-kbd
+Architecture: armhf
+Depends: ${misc:Depends}, i2c-tools
+Section: embedded
+Description: Keyboard and firmware driver for the Beepy device
