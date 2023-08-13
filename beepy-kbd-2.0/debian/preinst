@@ -20,8 +20,8 @@ if grep "^$MODULE_NAME " /proc/modules >/dev/null; then
 		|| echo "warning: $MODULE_NAME failed to unload"
 fi
 if ! raw_ver=$(i2cget -y 1 0x1F $VER_REG b); then
-	echo "error: failed to check firmware version (i2cget failed)"
-	exit 1
+	echo "warning: failed to check firmware version (I2C might not be enabled yet)"
+	exit 0
 fi
 if modprobe -n $MODULE_NAME 2>/dev/null; then
 	modprobe $MODULE_NAME 2>/dev/null \
