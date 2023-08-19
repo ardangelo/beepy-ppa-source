@@ -1,0 +1,17 @@
+beepy-kbd (2.1-2) bullseye; urgency=medium
+
+  * Configure keymap as default and disable modifiers in meta mode
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 19 Aug 2023 08:53:32 -0500
+
+beepy-kbd (2.1-1) bullseye; urgency=medium
+
+  * Update driver for shutdown and startup support using power key
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 13 Aug 2023 13:38:40 -0500
+
+beepy-kbd (2.0-1) bullseye; urgency=medium
+
+  * Initial package.
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 12 Aug 2023 12:41:45 -0500

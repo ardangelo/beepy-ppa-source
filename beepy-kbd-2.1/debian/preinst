@@ -5,7 +5,7 @@ set -e
 MODULE_NAME=beepy_kbd
 VER_REG=0x01
 REQ_MAJOR=2
-SUG_MINOR=0
+SUG_MINOR=1
 RELEASE_PAGE="https://github.com/ardangelo/beepberry-rp2040/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
 
 # Check for old module

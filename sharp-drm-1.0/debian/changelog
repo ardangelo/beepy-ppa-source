@@ -1,3 +1,9 @@
+sharp-drm (1.0-2) bullseye; urgency=medium
+
+  * Configure fbcon on boot
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 19 Aug 2023 12:20:57 -0500
+
 sharp-drm (1.0-1) bullseye; urgency=medium
 
   * Initial package.
