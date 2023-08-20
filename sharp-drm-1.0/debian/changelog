@@ -1,3 +1,10 @@
+sharp-drm (1.0-3) bullseye; urgency=medium
+
+  * Null pointer check in indicator set
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 20 Aug 2023 07:35:54 -0500
+
+
 sharp-drm (1.0-2) bullseye; urgency=medium
 
   * Configure fbcon on boot
