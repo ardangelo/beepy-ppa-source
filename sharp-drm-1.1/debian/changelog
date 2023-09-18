@@ -2,7 +2,7 @@ sharp-drm (1.1-1) bullseye; urgency=medium
 
   * Toggle vcom correctly
 
- -- Andrew D'Angelo <dangeloandrew@outlook.com>  Mon, Aug 2023 17:17:14 -0500
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Mon, 18 Aug 2023 17:17:14 -0500
 
 sharp-drm (1.0-3) bullseye; urgency=medium
 
