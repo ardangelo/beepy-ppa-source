@@ -1,3 +1,9 @@
+beepy-kbd (2.2-3) bookworm; urgency=medium
+
+  * Fix module build for Debian 12
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 11 Nov 2023 14:36:50 -0500
+
 beepy-kbd (2.2-2) bullseye; urgency=medium
 
   * Automatically sync RTC with network time

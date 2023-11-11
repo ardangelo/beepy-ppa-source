@@ -9,5 +9,5 @@ BUILT_MODULE_NAME[0]="$PACKAGE_NAME"
 DEST_MODULE_LOCATION[0]="/updates/dkms"
 
 # Hack because Debian DKMS packaging scripts break POST_INSTALL
-MAKE[0]="make -C ${kernel_source_dir} M=$BUILD_DIR \
+MAKE[0]="make \
 	&& make -C $SRC_DIR install_aux BUILD_DIR=$BUILD_DIR"
