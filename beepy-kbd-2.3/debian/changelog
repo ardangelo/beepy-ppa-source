@@ -1,3 +1,9 @@
+beepy-kbd (2.3-1) bookworm; urgency=medium
+
+  * Expose `rewake_timer` and `shutdown_grace` sysfs entry for firmware shutdown / rewake timer
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Thu, 30 Nov 2023 18:45:12 -0500
+
 beepy-kbd (2.2-3) bookworm; urgency=medium
 
   * Fix module build for Debian 12
