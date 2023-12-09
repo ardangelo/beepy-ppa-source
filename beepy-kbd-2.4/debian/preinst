@@ -4,8 +4,8 @@ set -e
 
 MODULE_NAME=beepy_kbd
 VER_REG=0x01
-REQ_MAJOR=2
-SUG_MINOR=2
+REQ_MAJOR=3
+SUG_MINOR=0
 RELEASE_PAGE="https://github.com/ardangelo/beepberry-rp2040/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
 
 # Check for old module
@@ -15,22 +15,32 @@ if modprobe -n bbqX0kbd 2>/dev/null; then
 fi
 
 # Get firmware version
-if grep "^$MODULE_NAME " /proc/modules >/dev/null; then
-	rmmod $MODULE_NAME 2>/dev/null \
-		|| echo "warning: $MODULE_NAME failed to unload"
-fi
-if ! raw_ver=$(i2cget -y 1 0x1F $VER_REG b); then
-	echo "warning: failed to check firmware version (I2C might not be enabled yet)"
-	exit 0
-fi
-if modprobe -n $MODULE_NAME 2>/dev/null; then
-	modprobe $MODULE_NAME 2>/dev/null \
-		|| echo "warning: $MODULE_NAME failed to load"
-fi
 
-# Parse firmware version
-major=${raw_ver:2:1}
-minor=${raw_ver:3:1}
+# Available from driver
+if [ -f /sys/firmware/beepy/fw_version ]; then
+	IFS=. read -r major minor <<< $(cat /sys/firmware/beepy/fw_version)
+
+# Use I2C
+else
+
+	# Module must be unloaded to use i2cget
+	if grep "^$MODULE_NAME " /proc/modules >/dev/null; then
+		rmmod $MODULE_NAME 2>/dev/null \
+			|| echo "warning: $MODULE_NAME failed to unload"
+	fi
+	if ! raw_ver=$(i2cget -y 1 0x1F $VER_REG b); then
+		echo "warning: failed to check firmware version (I2C might not be enabled yet)"
+		exit 0
+	fi
+	if modprobe -n $MODULE_NAME 2>/dev/null; then
+		modprobe $MODULE_NAME 2>/dev/null \
+			|| echo "warning: $MODULE_NAME failed to load"
+	fi
+
+	# Parse firmware version
+	major=${raw_ver:2:1}
+	minor=${raw_ver:3:1}
+fi
 
 # Check firmware version
 if [ $major -ne $REQ_MAJOR ]; then

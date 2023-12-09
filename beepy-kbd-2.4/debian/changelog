@@ -1,3 +1,9 @@
+beepy-kbd (2.4-1) bookworm; urgency=medium
+
+  * Implement firmware updater (requires firmware 3.0 or higher)
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 09 Dec 2023 09:02:10 -0500
+
 beepy-kbd (2.3-1) bookworm; urgency=medium
 
   * Expose `rewake_timer` and `shutdown_grace` sysfs entry for firmware shutdown / rewake timer

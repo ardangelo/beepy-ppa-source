@@ -1,6 +1,6 @@
 Source: beepy-kbd
 Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
-Build-Depends: debhelper (>= 11), dkms
+Build-Depends: debhelper (>= 11), dkms, dh-dkms
 
 Package: beepy-kbd
 Architecture: armhf
