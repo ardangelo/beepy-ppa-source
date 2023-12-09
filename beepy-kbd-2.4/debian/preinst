@@ -46,13 +46,17 @@ fi
 if [ $major -ne $REQ_MAJOR ]; then
 	echo "error: driver requires major firmware version $REQ_MAJOR" \
 		"(firmware has version $major.$minor)"
-	echo -e "install the matching firmware release from\n    $RELEASE_PAGE"
+	echo "update the beepy-fw package to $REQ_MAJOR.$SUG_MINOR and run"
+	echo "    /sbin/update-beepy-fw"
+	echo -e "or manually install the firmware release from\n    $RELEASE_PAGE"
 	exit 1
 fi
 if [ $minor -lt $SUG_MINOR ]; then
 	echo "warning: installed firmware version $major.$minor is compatible," \
 		"but out of date (driver may use features from version $REQ_MAJOR.$SUG_MINOR)"
-	echo -e "consider installing the matching firmware release from\n    $RELEASE_PAGE"
+	echo "consider updating the beepy-fw package to $REQ_MAJOR.$SUG_MINOR and run"
+	echo "    /sbin/update-beepy-fw"
+	echo -e "or manually install the firmware release from\n    $RELEASE_PAGE"
 fi
 
 echo "Firmware version $major.$minor passes module requirement"
