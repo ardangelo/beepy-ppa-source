@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Firmware file installed, but must be applied by running"
+echo "    /sbin/update-beepy-fw"
+

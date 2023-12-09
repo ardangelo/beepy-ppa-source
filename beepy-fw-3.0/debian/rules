@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	mkdir -p debian/beepy-fw/sbin
+	cp update-beepy-fw debian/beepy-fw/sbin
+
+	mkdir -p debian/beepy-fw/usr/lib/beepy-firmware
+	cp *.hex debian/beepy-fw/usr/lib/beepy-firmware

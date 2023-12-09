@@ -1,0 +1,9 @@
+Source: beepy-fw
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: python3
+
+Package: beepy-fw
+Architecture: armhf
+Depends: ${misc:Depends}
+Section: embedded
+Description: Beepy firmware and installer script
