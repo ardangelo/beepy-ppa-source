@@ -5,7 +5,8 @@ set -e
 MODULE_NAME=beepy_kbd
 VER_REG=0x01
 REQ_MAJOR=3
-SUG_MINOR=0
+REQ_MINOR=1
+SUG_MINOR=1
 RELEASE_PAGE="https://github.com/ardangelo/beepberry-rp2040/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
 
 # Check for old module
@@ -43,10 +44,10 @@ else
 fi
 
 # Check firmware version
-if [ $major -ne $REQ_MAJOR ]; then
-	echo "error: driver requires major firmware version $REQ_MAJOR" \
+if [ $major -ne $REQ_MAJOR ] || [ $minor -lt $REQ_MINOR ]; then
+	echo "error: driver requires firmware version $REQ_MAJOR.$REQ_MINOR" \
 		"(firmware has version $major.$minor)"
-	echo "update the beepy-fw package to $REQ_MAJOR.$SUG_MINOR and run"
+	echo "update the beepy-fw package and run"
 	echo "    /sbin/update-beepy-fw"
 	echo -e "or manually install the firmware release from\n    $RELEASE_PAGE"
 	exit 1

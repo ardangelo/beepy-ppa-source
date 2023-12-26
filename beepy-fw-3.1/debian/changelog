@@ -1,3 +1,9 @@
+beepy-fw (3.1-1) bookworm; urgency=medium
+
+  * Implement touch input filtering
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 25 Dec 2023 11:18:42 -0500
+
 beepy-fw (3.0-1) bookworm; urgency=medium
 
   * Initial firmware package and install script

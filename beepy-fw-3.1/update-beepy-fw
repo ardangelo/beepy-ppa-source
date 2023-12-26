@@ -60,7 +60,7 @@ if (len(sys.argv) > 2) or ((len(sys.argv) == 2) and (sys.argv[1] == '--help')):
 	print(f'{sys.argv[0]} <path>\n    install firmware from path')
 	print(f'{sys.argv[0]} --list\n    list all available firmware files')
 	print('The system will reboot to apply a successful firmware update')
-	quit()
+	exit(0)
 
 print(f'Installed firmware: {fw_ver[0]}.{fw_ver[1]}')
 
@@ -77,7 +77,7 @@ if (len(sys.argv) == 2) and (sys.argv[1] == '--list'):
 		for ver in older:
 			print(f'     {ver[0]}.{ver[1]}: {paths[ver]}')
 		print()
-	quit()
+	exit(0)
 
 # <path>
 elif len(sys.argv) == 2:
@@ -93,14 +93,14 @@ elif len(sys.argv) == 1:
 			print(f'[{i: >2}] {ver[0]}.{ver[1]}: {paths[ver]}')
 	else:
 		print('    (None found)')
-		quit()
+		exit(0)
 
 	idx = input("Enter number of newer firmware to install: ")
 	try:
 		firmware_path = FW_DIR + '/' + paths[newer[int(idx)]]
 	except:
 		print(f'invalid index {idx}')
-		quit()
+		exit(0)
 
 print(f'Installing {firmware_path}...')
 try:
@@ -117,7 +117,7 @@ except IOError as ex:
 		print(subprocess.check_output('dmesg | tail -n3', shell=True).decode())
 	else:
 		print()
-	quit()
+	exit(0)
 except Exception as ex:
 	print(f'Update failed: {ex}')
 	print('Firmware was not updated.')

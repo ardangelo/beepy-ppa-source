@@ -1,3 +1,9 @@
+beepy-kbd (2.5-1) bookworm; urgency=medium
+
+  * Implement mouse support (requires firmware 3.1 or higher)
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Mon, 25 Dec 2023 10:04:43 -0500
+
 beepy-kbd (2.4-1) bookworm; urgency=medium
 
   * Implement firmware updater (requires firmware 3.0 or higher)
