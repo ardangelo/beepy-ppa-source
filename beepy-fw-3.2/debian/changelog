@@ -1,3 +1,9 @@
+beepy-fw (3.2-1) bookworm; urgency=medium
+
+  * Recover from TX_ABRT (damz)
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 06 Jan 2024 08:25:31 -0500
+
 beepy-fw (3.1-1) bookworm; urgency=medium
 
   * Implement touch input filtering
