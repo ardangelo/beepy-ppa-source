@@ -1,3 +1,9 @@
+beepy-kbd (2.6-1) bookworm; urgency=medium
+
+  * Implement symbol menu overlay (requires firmware 3.3 or higher)
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Thu, 18 Jan 2024 21:11:43 -0500
+
 beepy-kbd (2.5-1) bookworm; urgency=medium
 
   * Implement mouse support (requires firmware 3.1 or higher)

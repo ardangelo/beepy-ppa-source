@@ -1,6 +1,9 @@
 [submodule "keyboard-driver_2.0-1_armhf/module"]
-	path = beepy-kbd-2.5/module
+	path = beepy-kbd-2.6/module
 	url = git@github.com:ardangelo/beepberry-keyboard-driver.git
 [submodule "beepy-lcd-1.0/module"]
-	path = sharp-drm-1.1/module
+	path = sharp-drm-1.4/module
 	url = git@github.com:ardangelo/sharp-drm-driver.git
+[submodule "beepy-symbol-overlay-1.0/module"]
+	path = beepy-symbol-overlay-1.0/module
+	url = git@github.com:ardangelo/beepy-symbol-overlay.git

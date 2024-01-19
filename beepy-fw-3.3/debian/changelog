@@ -1,3 +1,9 @@
+beepy-fw (3.3-1) bookworm; urgency=medium
+
+  * Report held modifier keys
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Thu, 18 Jan 2024 21:10:11 -0500
+
 beepy-fw (3.2-1) bookworm; urgency=medium
 
   * Recover from TX_ABRT (damz)

@@ -1,0 +1,9 @@
+Source: beepy-symbol-overlay
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11)
+
+Package: beepy-symbol-overlay
+Architecture: armhf
+Depends: ${misc:Depends} sharp-drm (>= 1.4)
+Section: embedded
+Description: Beepy symbol menu overlay for sharp-drm

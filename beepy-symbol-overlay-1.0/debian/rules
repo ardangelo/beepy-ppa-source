@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	make -C module
+
+override_dh_auto_install:
+	dh_install
+	install -D -m 0755 module/symbol-overlay debian/beepy-symbol-overlay/sbin/symbol-overlay

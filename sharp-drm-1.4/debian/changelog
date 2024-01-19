@@ -1,3 +1,9 @@
+sharp-drm (1.4-1) bookworm; urgency=medium
+
+  * Implement generic overlays
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Thu, 18 Jan 2024 21:11:43 -0500
+
 sharp-drm (1.1-3) bookworm; urgency=medium
 
   * Fix package install in chroot
