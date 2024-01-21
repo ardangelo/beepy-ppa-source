@@ -1,3 +1,9 @@
+beepy-symbol-overlay (1.0-2) bookworm; urgency=medium
+
+  * Link statically
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 21 Jan 2024 10:53:32 -0500
+
 beepy-symbol-overlay (1.0-1) bookworm; urgency=medium
 
   * Symbol menu overlay
