@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_install
+	mkdir -p debian/beepy-tmux-menus/usr/share/beepy-tmux-menus/
+	cp -r module/* debian/beepy-tmux-menus/usr/share/beepy-tmux-menus/
+

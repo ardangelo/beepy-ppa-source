@@ -1,0 +1,9 @@
+Source: beepy-tmux-menus
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11)
+
+Package: beepy-tmux-menus
+Architecture: armhf
+Depends: ${misc:Depends}
+Section: embedded
+Description: Beepy tmux menus plugin

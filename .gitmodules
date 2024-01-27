@@ -7,3 +7,6 @@
 [submodule "beepy-symbol-overlay-1.0/module"]
 	path = beepy-symbol-overlay-1.0/module
 	url = git@github.com:ardangelo/beepy-symbol-overlay.git
+[submodule "beepy-tmux-menus/module"]
+	path = beepy-tmux-menus-1.0/module
+	url = git@github.com:ardangelo/tmux-menus.git

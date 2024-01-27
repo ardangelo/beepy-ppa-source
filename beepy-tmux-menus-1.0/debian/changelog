@@ -1,0 +1,5 @@
+beepy-tmux-menus (1.0-1) bookworm; urgency=medium
+
+  * Customized tmux menu plugins
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Fri, 26 Jan 2024 19:03:49 -0600
