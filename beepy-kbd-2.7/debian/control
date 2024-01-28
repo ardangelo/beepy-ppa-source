@@ -4,6 +4,6 @@ Build-Depends: debhelper (>= 11), dkms, dh-dkms
 
 Package: beepy-kbd
 Architecture: armhf
-Depends: ${misc:Depends}, i2c-tools, beepy-fw (>= 3.0)
+Depends: ${misc:Depends}, i2c-tools, beepy-fw (>= 3.0), sharp-drm (>= 1.4), beepy-symbol-overlay (>= 1.0)
 Section: embedded
 Description: Keyboard and firmware driver for the Beepy device

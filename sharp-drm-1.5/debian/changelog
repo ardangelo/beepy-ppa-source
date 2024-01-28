@@ -1,3 +1,9 @@
+sharp-drm (1.5-1) bookworm; urgency=medium
+
+  * Fix overlay draw out of clip bounds
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 28 Jan 2024 11:00:32 -0500
+
 sharp-drm (1.4-2) bookworm; urgency=medium
 
   * Add parameter name for sharp_memory_ioctl_ov_clear

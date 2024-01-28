@@ -6,7 +6,7 @@ MODULE_NAME=beepy_kbd
 VER_REG=0x01
 REQ_MAJOR=3
 REQ_MINOR=3
-SUG_MINOR=3
+SUG_MINOR=4
 RELEASE_PAGE="https://github.com/ardangelo/beepberry-rp2040/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
 
 # Check for old module

@@ -1,3 +1,9 @@
+beepy-kbd (2.7-1) bookworm; urgency=medium
+
+  * Implement Meta menu overlay (requires firmware 3.4 or higher)
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 28 Jan 2024 14:35:43 -0600
+
 beepy-kbd (2.6-1) bookworm; urgency=medium
 
   * Implement symbol menu overlay (requires firmware 3.3 or higher)
