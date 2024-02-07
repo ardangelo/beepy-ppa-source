@@ -1,3 +1,9 @@
+sharp-drm (1.5-2) bookworm; urgency=medium
+
+  * Fix DKMS build in chroot
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 04 Feb 2024 08:11:32 -0600
+
 sharp-drm (1.5-1) bookworm; urgency=medium
 
   * Fix overlay draw out of clip bounds

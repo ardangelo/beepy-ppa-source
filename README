@@ -1,3 +1,3 @@
 Package sources for Beepy software
 
-Run `dpkg-buildpackage -us -uc` in the package directory to generate a `deb` package
+Run `dpkg-buildpackage -us -uc --host-arch armhf` in the package directory to generate a `deb` package
