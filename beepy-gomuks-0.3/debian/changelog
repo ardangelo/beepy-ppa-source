@@ -1,5 +1,11 @@
+beepy-gomuks (0.3-2) bookworm; urgency=medium
+
+  * Make code request explicit in login
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 17 Feb 2024 13:20:00 -0600
+
 beepy-gomuks (0.3-1) bookworm; urgency=medium
 
-  * Gomuks Beepy fork
+  * Gomuks Beepy fork from https://github.com/tulir/gomuks/tree/beepberry
 
  -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 17 Feb 2024 08:10:49 -0600
