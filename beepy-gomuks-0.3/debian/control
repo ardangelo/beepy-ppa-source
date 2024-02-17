@@ -1,0 +1,9 @@
+Source: beepy-gomuks
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11), libolm-dev
+
+Package: beepy-gomuks
+Architecture: armhf
+Depends: ${misc:Depends} libolm3
+Section: embedded
+Description: Gomuks Beepy fork

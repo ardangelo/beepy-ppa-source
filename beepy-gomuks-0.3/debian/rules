@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	cd module && CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=6 go build -v \
+		-ldflags="-extld=arm-linux-gnueabi-gcc -X main.Tag=beepy -X main.Commit=$(shell git -C module rev-parse HEAD) \
+		-extldflags=-L/usr/lib/arm-linux-gnueabihf"
+
+override_dh_auto_install:
+	dh_install
+	install -D -m 0755 module/gomuks debian/beepy-gomuks/usr/bin/gomuks
