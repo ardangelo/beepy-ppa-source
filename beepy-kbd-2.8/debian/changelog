@@ -1,3 +1,9 @@
+beepy-kbd (2.8-1) bookworm; urgency=medium
+
+  * Fix bug where exiting meta mode with a phys. alt key causes repeat
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 18 Feb 2024 16:08:18 -0600
+
 beepy-kbd (2.7-2) bookworm; urgency=medium
 
   * Fix DKMS build in chroot

@@ -1,3 +1,10 @@
 Package sources for Beepy software
 
 Run `dpkg-buildpackage -us -uc --host-arch armhf` in the package directory to generate a `deb` package
+
+# Crosscompiling
+
+sudo dpkg --add-architecture armhf
+sudo apt-get install build-essential crossbuild-essential-armhf
+cd <package_dir>
+sudo apt-get build-dep -aarmhf .
