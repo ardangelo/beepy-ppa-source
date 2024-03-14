@@ -1,0 +1,88 @@
+#!/bin/bash
+
+POLL_SCRIPT_DIR=$1
+if [ -z "$POLL_SCRIPT_DIR" ]; then
+	POLL_SCRIPT_DIR="/etc/beepy-poll.d"
+fi
+
+STARTUP_REASON_PATH="/sys/firmware/beepy/startup_reason"
+BATTERY_PATH="/sys/firmware/beepy/battery_percent"
+REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
+REWAKE_INTERVAL=1
+
+# Send SIG1 to exit and cancel repoll
+cancel_repoll=0
+handle_cancel_repoll() {
+	echo "Canceling repoll"
+	cancel_repoll=1
+	echo 0 > $REWAKE_TIMER_PATH
+}
+trap handle_cancel_repoll INT TERM USR1
+
+echo "beepy-poll $BASHPID started at $(date)"
+
+# Check startup reason
+if [ "$(cat $STARTUP_REASON_PATH)" != "rewake" ]; then
+	echo "Exiting (startup reason: $(cat $STARTUP_REASON_PATH))"
+	exit 0
+fi
+
+# Check battery level
+battery_percent=$(cat "$BATTERY_PATH")
+if [ "$battery_percent" -lt "10" ]; then
+	echo "Battery below 10%, shutting down and won't poll"
+	poweroff
+	exit 0
+fi
+
+
+if [ ! -d "$POLL_SCRIPT_DIR" ]; then
+	echo "Poll script directory $POLL_SCRIPT_DIR not found"
+	exit 0
+fi
+
+# Wait for NetworkManager
+for i in $(seq 1 5); do
+	echo "Waiting for NetworkManager... ($i/5)"
+	if systemctl --quiet is-active NetworkManager; then
+		break
+	fi
+	sleep 1
+done
+
+# Wait for network
+for i in $(seq 1 5); do
+	if [ "$cancel_repoll" -ne "0" ]; then
+		exit 0
+	fi
+
+	echo "Waiting for network... ($i/5)"
+	net_state=$(nmcli d show wlan0 | grep 'GENERAL.STATE:' | cut -d '(' -f 2 | tr -d ')')
+	if [ "$net_state" == "connected" ]; then
+		break
+	fi
+	sleep 1
+done
+
+if [ "$net_state" != "connected" ]; then
+	echo "Network not found, repoll in $REWAKE_INTERVAL min."
+	if [ "$cancel_repoll" -eq "0" ]; then
+		echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
+	fi
+	exit 0
+fi
+
+for script in $POLL_SCRIPT_DIR/*; do
+	if [ "$cancel_repoll" -ne "0" ]; then
+		exit 0
+	fi
+
+	echo "Running poll script $script..."
+	. $script ||:
+	echo "done"
+done
+
+if [ "$cancel_repoll" -eq "0" ]; then
+	echo "Polling done, repoll in $REWAKE_INTERVAL min."
+	echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
+fi

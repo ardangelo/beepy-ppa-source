@@ -1,0 +1,9 @@
+Source: beepy-poll
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends:
+
+Package: beepy-poll
+Architecture: armhf
+Depends: ${misc:Depends}
+Section: embedded
+Description: Beepy boot polling service 

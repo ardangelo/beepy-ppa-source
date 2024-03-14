@@ -1,0 +1,4 @@
+beepy-poll /sbin/
+beepy-poll.d/* /etc/beepy-poll.d/
+profile.d/* /etc/profile.d/
+debian/beepy-poll.service /lib/systemd/system/
