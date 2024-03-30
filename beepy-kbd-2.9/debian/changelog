@@ -1,3 +1,9 @@
+beepy-kbd (2.9-2) bookworm; urgency=medium
+
+  * Fix build for Linux 6.6
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 30 Mar 2024 17:26:49 -0500
+
 beepy-kbd (2.9-1) bookworm; urgency=medium
 
   * Add parameter sysfs_gid to set group ID on /sys/firmware/beepy

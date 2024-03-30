@@ -1,3 +1,9 @@
+sharp-drm (1.5-3) bookworm; urgency=medium
+
+  * Fix build on Linux 6.6
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 30 Mar 2024 17:08:40 -0500
+
 sharp-drm (1.5-2) bookworm; urgency=medium
 
   * Fix DKMS build in chroot
