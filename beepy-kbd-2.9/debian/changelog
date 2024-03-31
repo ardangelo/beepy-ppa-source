@@ -1,3 +1,9 @@
+beepy-kbd (2.9-3) bookworm; urgency=medium
+
+  * Update recommended firmware to 3.5
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 31 Mar 2024 18:10:19 -0500
+
 beepy-kbd (2.9-2) bookworm; urgency=medium
 
   * Fix build for Linux 6.6
