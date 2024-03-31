@@ -18,27 +18,27 @@ if [ -z "$POLL_SCRIPT_DIR" ]; then
 fi
 
 REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
-REWAKE_INTERVAL=1
+REWAKE_INTERVAL=15
 
 # Send SIG1 to exit and cancel repoll
 cancel_repoll=0
 handle_cancel_repoll() {
 	echo
-	echo "Canceling repoll"
+	echo "Canceling poll"
 	cancel_repoll=1
 	echo 0 > $REWAKE_TIMER_PATH
+	exit 0
 }
 trap handle_cancel_repoll INT TERM USR1
 
-echo "beepy-poll $BASHPID started at $(date)"
-
+# Check poll script directory
 if [ ! -d "$POLL_SCRIPT_DIR" ]; then
 	echo "Poll script directory $POLL_SCRIPT_DIR not found"
 	exit 0
 fi
 
 # Wait for NetworkManager
-echo
+printf "Waiting for network...\n"
 for i in $(seq 1 5); do
 	printf "\rWaiting for NetworkManager... ($i/5)"
 	if systemctl --quiet is-active NetworkManager; then
@@ -63,23 +63,26 @@ done
 echo
 
 if [ "$net_state" != "connected" ]; then
-	echo "Network not found, repoll in $REWAKE_INTERVAL min."
+	echo "    Network not found, repoll in $REWAKE_INTERVAL min."
 	if [ "$cancel_repoll" -eq "0" ]; then
 		echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
 	fi
 	exit 0
 fi
 
+# Replace HOME with ~
+short_dir=$(cd "$POLL_SCRIPT_DIR" && dirs +0)
+
 for script in $POLL_SCRIPT_DIR/*; do
 	if [ "$cancel_repoll" -ne "0" ]; then
 		exit 0
 	fi
 
-	echo "Running $script..."
+	echo "    Running $short_dir/$(basename $script)"
 	bash "$script" ||:
 done
 
 if [ "$cancel_repoll" -eq "0" ]; then
-	echo "Polling done, repoll in $REWAKE_INTERVAL min."
+	echo "    Polling done, repoll in $REWAKE_INTERVAL min."
 	echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
 fi

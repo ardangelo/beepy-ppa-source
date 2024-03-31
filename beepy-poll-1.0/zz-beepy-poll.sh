@@ -2,11 +2,12 @@
 
 (
 
+REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
 STARTUP_REASON_PATH="/sys/firmware/beepy/startup_reason"
 BATTERY_PATH="/sys/firmware/beepy/battery_percent"
 
 if [ ! -f "$STARTUP_REASON_PATH" ] \
- || [ $(cat "$STARTUP_REASON_PATH") != "rewake" ]; then
+ || [ "$(cat $STARTUP_REASON_PATH)" != "rewake" ]; then
 	exit 0
 fi
 
@@ -18,7 +19,8 @@ if [ "$battery_percent" -lt "10" ]; then
 	exit 0
 fi
 
-echo "Poll as $USER. Any key to interrupt..."
+echo "Poll as $USER. Press any key to interrupt..."
+date
 echo
 
 # Get poller PID
@@ -28,9 +30,10 @@ beepy_poll_pid=$!
 while IFS= read -n 1 -s key; do
 
 	# Cancel rewake
+	echo 0 > "$REWAKE_TIMER_PATH"
 	kill -USR1 $beepy_poll_pid
+	wait $beepy_poll_pid
 
-	echo "Polling canceled."
 	exit 0
 done
 
