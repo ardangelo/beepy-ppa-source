@@ -2,8 +2,6 @@
 
 # Install option
 if [ "$1" == "install" ]; then
-	mkdir -p $HOME/.config/systemd/user
-	cp -r /etc/skel/.config/systemd/user/* $HOME/.config/systemd/user/
 	mkdir -p $HOME/.config/beepy-poll.d
 	cp -r /etc/skel/.config/beepy-poll.d/* $HOME/.config/beepy-poll.d/
 
@@ -20,11 +18,12 @@ if [ -z "$POLL_SCRIPT_DIR" ]; then
 fi
 
 REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
-REWAKE_INTERVAL=15
+REWAKE_INTERVAL=1
 
 # Send SIG1 to exit and cancel repoll
 cancel_repoll=0
 handle_cancel_repoll() {
+	echo
 	echo "Canceling repoll"
 	cancel_repoll=1
 	echo 0 > $REWAKE_TIMER_PATH
@@ -39,8 +38,9 @@ if [ ! -d "$POLL_SCRIPT_DIR" ]; then
 fi
 
 # Wait for NetworkManager
+echo
 for i in $(seq 1 5); do
-	echo "Waiting for NetworkManager... ($i/5)"
+	printf "\rWaiting for NetworkManager... ($i/5)"
 	if systemctl --quiet is-active NetworkManager; then
 		break
 	fi
@@ -53,13 +53,14 @@ for i in $(seq 1 5); do
 		exit 0
 	fi
 
-	echo "Waiting for network... ($i/5)"
+	printf "\rWaiting for network connection... ($i/5)"
 	net_state=$(nmcli d show wlan0 | grep 'GENERAL.STATE:' | cut -d '(' -f 2 | tr -d ')')
 	if [ "$net_state" == "connected" ]; then
 		break
 	fi
 	sleep 1
 done
+echo
 
 if [ "$net_state" != "connected" ]; then
 	echo "Network not found, repoll in $REWAKE_INTERVAL min."

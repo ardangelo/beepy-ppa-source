@@ -1,4 +1,3 @@
 beepy-poll /usr/bin/
 beepy-poll.d/* /etc/skel/.config/beepy-poll.d/
-profile.d/* /etc/profile.d/
-debian/beepy-poll.service /etc/skel/.config/systemd/user/
+zz-beepy-poll.sh /etc/profile.d/
