@@ -5,7 +5,8 @@ Wants=NetworkManager.service
 After=NetworkManager.service
 
 [Service]
-Type=oneshot
+Type=simple
+RemainAfterExit=no
 ExecStart=/usr/bin/beepy-poll
 StandardOutput=journal
 StandardError=journal

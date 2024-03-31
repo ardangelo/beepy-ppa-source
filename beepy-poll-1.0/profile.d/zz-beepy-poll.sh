@@ -19,25 +19,36 @@ if [ "$battery_percent" -lt "10" ]; then
 	exit 0
 fi
 
-echo "Beepy polling as $USER. Press key to interrupt..."
+# Start poller service
+while true; do
+	if ! systemctl --user start beepy-poll; then
+		systemctl --user stop beepy-poll
+		echo "Restarting poller service..."
+		sleep 1
+	else
+		break
+	fi
+done
+
+echo "Poll as $USER. Press key to interrupt..."
 echo
+
+# Get poller PID
+beepy_poll_pid=""
+while true; do
+	beepy_poll_pid=$(journalctl --user -u beepy-poll -n10 | grep 'beepy-poll\[' | tail -n1 | cut -d '[' -f 2 | cut -d ']' -f 1)
+	if [ ! -z "$beepy_poll_pid" ]; then
+		break
+	fi
+	echo "Waiting for poll PID..."
+	sleep 1
+done
 
 # Start journalctl monitor
 journalctl --output cat --user -u beepy-poll -f | fold -w 40 &
 journalctl_pid=$!
 
-# Start poller service
-systemctl --user start beepy-poll &
-
 while IFS= read -n 1 -s key; do
-
-	# Get poller PID
-	beepy_poll_pid=""
-	while [ -z "$beepy_poll_pid" ]; do
-		echo "Canceling (waiting for poll PID)..."
-		beepy_poll_pid=$(journalctl --user -u beepy-poll -n10 | grep 'beepy-poll\[' | tail -n1 | cut -d '[' -f 2 | cut -d ']' -f 1)
-		sleep 1
-	done
 
 	# Cancel rewake
 	kill -USR1 $beepy_poll_pid

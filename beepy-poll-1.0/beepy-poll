@@ -16,7 +16,7 @@ fi
 
 POLL_SCRIPT_DIR=$1
 if [ -z "$POLL_SCRIPT_DIR" ]; then
-	POLL_SCRIPT_DIR="$HOME/.config//beepy-poll.d"
+	POLL_SCRIPT_DIR="$HOME/.config/beepy-poll.d"
 fi
 
 REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
@@ -74,9 +74,8 @@ for script in $POLL_SCRIPT_DIR/*; do
 		exit 0
 	fi
 
-	echo "Running poll script $script..."
-	. $script ||:
-	echo "done"
+	echo "Running $script..."
+	bash "$script" ||:
 done
 
 if [ "$cancel_repoll" -eq "0" ]; then

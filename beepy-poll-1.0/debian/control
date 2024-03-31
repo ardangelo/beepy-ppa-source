@@ -4,6 +4,6 @@ Build-Depends:
 
 Package: beepy-poll
 Architecture: armhf
-Depends: ${misc:Depends}
+Depends: ${misc:Depends} screen
 Section: embedded
 Description: Beepy boot polling service 
