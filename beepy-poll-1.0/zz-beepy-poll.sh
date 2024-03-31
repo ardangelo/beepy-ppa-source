@@ -23,8 +23,8 @@ echo "Poll as $USER. Press any key to interrupt..."
 date
 echo
 
-# Get poller PID
-/usr/bin/beepy-poll | fold -w 40 &
+# Start and get poller PID
+/usr/bin/beepy-poll poll | fold -w 50 &
 beepy_poll_pid=$!
 
 while IFS= read -n 1 -s key; do
