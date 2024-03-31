@@ -1,14 +1,26 @@
 #!/bin/bash
 
-POLL_SCRIPT_DIR=$1
-if [ -z "$POLL_SCRIPT_DIR" ]; then
-	POLL_SCRIPT_DIR="/etc/beepy-poll.d"
+# Install option
+if [ "$1" == "install" ]; then
+	mkdir -p $HOME/.config/systemd/user
+	cp -r /etc/skel/.config/systemd/user/* $HOME/.config/systemd/user/
+	mkdir -p $HOME/.config/beepy-poll.d
+	cp -r /etc/skel/.config/beepy-poll.d/* $HOME/.config/beepy-poll.d/
+
+	for script in $HOME/.config/beepy-poll.d/*; do
+		$script install
+	done
+
+	exit 0
 fi
 
-STARTUP_REASON_PATH="/sys/firmware/beepy/startup_reason"
-BATTERY_PATH="/sys/firmware/beepy/battery_percent"
+POLL_SCRIPT_DIR=$1
+if [ -z "$POLL_SCRIPT_DIR" ]; then
+	POLL_SCRIPT_DIR="$HOME/.config//beepy-poll.d"
+fi
+
 REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
-REWAKE_INTERVAL=1
+REWAKE_INTERVAL=15
 
 # Send SIG1 to exit and cancel repoll
 cancel_repoll=0
@@ -20,21 +32,6 @@ handle_cancel_repoll() {
 trap handle_cancel_repoll INT TERM USR1
 
 echo "beepy-poll $BASHPID started at $(date)"
-
-# Check startup reason
-if [ "$(cat $STARTUP_REASON_PATH)" != "rewake" ]; then
-	echo "Exiting (startup reason: $(cat $STARTUP_REASON_PATH))"
-	exit 0
-fi
-
-# Check battery level
-battery_percent=$(cat "$BATTERY_PATH")
-if [ "$battery_percent" -lt "10" ]; then
-	echo "Battery below 10%, shutting down and won't poll"
-	poweroff
-	exit 0
-fi
-
 
 if [ ! -d "$POLL_SCRIPT_DIR" ]; then
 	echo "Poll script directory $POLL_SCRIPT_DIR not found"

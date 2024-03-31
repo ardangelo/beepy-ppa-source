@@ -6,7 +6,7 @@ After=NetworkManager.service
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/beepy-poll
+ExecStart=/usr/bin/beepy-poll
 StandardOutput=journal
 StandardError=journal
 RemainAfterExit=true
