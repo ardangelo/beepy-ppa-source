@@ -1,3 +1,9 @@
+beepy-fw (3.5-1) bookworm; urgency=medium
+
+  * Additional LED flash modes
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 31 Mar 2024 18:04:21 -0500
+
 beepy-fw (3.4-1) bookworm; urgency=medium
 
   * Report held Call, Berry, End Call
