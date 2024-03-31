@@ -1,0 +1,5 @@
+beepy-poll (1.0-1) bookworm; urgency=medium
+
+  * Initial firmware package
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 03 Mar 2024 04:35:08 -0800

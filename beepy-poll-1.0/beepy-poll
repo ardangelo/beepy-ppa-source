@@ -1,0 +1,98 @@
+#!/bin/bash
+
+REWAKE_TIMER_PATH="/sys/firmware/beepy/rewake_timer"
+REWAKE_INTERVAL=15
+
+# Set poll script directory
+POLL_SCRIPT_DIR=$2
+if [ -z "$POLL_SCRIPT_DIR" ]; then
+	POLL_SCRIPT_DIR="$HOME/.config/beepy-poll.d"
+fi
+
+# Send SIG1 to exit and cancel repoll
+cancel_repoll=0
+handle_cancel_repoll() {
+	echo
+	echo "Canceling poll"
+	cancel_repoll=1
+	echo 0 > $REWAKE_TIMER_PATH
+	exit 0
+}
+trap handle_cancel_repoll INT TERM USR1
+
+# Install option
+if [ "$1" == "install" ]; then
+	mkdir -p $POLL_SCRIPT_DIR
+	cp -r /etc/skel/.config/beepy-poll.d/* $POLL_SCRIPT_DIR
+
+	for script in $POLL_SCRIPT_DIR/*; do
+		$script install
+	done
+
+	exit 0
+fi
+
+# Check poll script directory
+if [ ! -d "$POLL_SCRIPT_DIR" ]; then
+	echo "Poll script directory $POLL_SCRIPT_DIR not found"
+	exit 0
+fi
+
+# Run polling with reboot
+if [ "$1" == "poll" ]; then
+
+	# Wait for NetworkManager
+	printf "Waiting for network...\n"
+	for i in $(seq 1 5); do
+		printf "\rWaiting for NetworkManager... ($i/5)"
+		if systemctl --quiet is-active NetworkManager; then
+			break
+		fi
+		sleep 1
+	done
+
+	# Wait for network
+	for i in $(seq 1 5); do
+		if [ "$cancel_repoll" -ne "0" ]; then
+			exit 0
+		fi
+
+		printf "\rWaiting for network connection... ($i/5)"
+		net_state=$(nmcli d show wlan0 | grep 'GENERAL.STATE:' | cut -d '(' -f 2 | tr -d ')')
+		if [ "$net_state" == "connected" ]; then
+			break
+		fi
+		sleep 1
+	done
+	echo
+
+	if [ "$net_state" != "connected" ]; then
+		echo "    Network not found, repoll in $REWAKE_INTERVAL min."
+		if [ "$cancel_repoll" -eq "0" ]; then
+			echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
+		fi
+		exit 0
+	fi
+
+	# Replace HOME with ~
+	short_dir=$(cd "$POLL_SCRIPT_DIR" && dirs +0)
+
+	for script in $POLL_SCRIPT_DIR/*; do
+		if [ "$cancel_repoll" -ne "0" ]; then
+			exit 0
+		fi
+
+		echo "    Running $short_dir/$(basename $script)"
+		bash "$script" ||:
+	done
+
+	if [ "$cancel_repoll" -eq "0" ]; then
+		echo "    Polling done, repoll in $REWAKE_INTERVAL min."
+		echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
+	fi
+
+# Just rewake
+else
+	echo "   Shutting down and polling in $REWAKE_INTERVAL min."
+	echo $REWAKE_INTERVAL > $REWAKE_TIMER_PATH
+fi

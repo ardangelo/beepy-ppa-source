@@ -1,0 +1,3 @@
+beepy-poll /usr/bin/
+beepy-poll.d/* /etc/skel/.config/beepy-poll.d/
+zz-beepy-poll.sh /etc/profile.d/

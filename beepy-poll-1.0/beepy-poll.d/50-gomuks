@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Set path to transfered Gomuks directory
+# export GOMUKS_ROOT=$HOME/<directory>
+
+SCRIPT_PIPE="gomuks.pipe"
+
+if [ "$1" == "install" ]; then
+	SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; dirs +0 )"
+	echo "Gomuks poller script installed to"
+	echo "    $SCRIPTPATH/$(basename $0)"
+	echo "You may need to edit it to set GOMUKS_ROOT"
+	exit 0
+fi
+
+rm -f $SCRIPT_PIPE
+mkfifo $SCRIPT_PIPE
+screen -dmS gomuks bash -c "/usr/bin/gomuks --headless > $SCRIPT_PIPE" ||:
+cat $SCRIPT_PIPE
+rm -f $SCRIPT_PIPE

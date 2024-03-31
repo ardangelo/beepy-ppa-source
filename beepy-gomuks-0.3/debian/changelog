@@ -1,3 +1,15 @@
+beepy-gomuks (0.3-5) bookworm; urgency=medium
+
+  * Support --headless polling option
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 31 Mar 2024 09:31:17 -0500
+
+beepy-gomuks (0.3-4) bookworm; urgency=medium
+
+  * Adaptive interface
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 24 Mar 2024 15:41:23 -0500
+
 beepy-gomuks (0.3-3) bookworm; urgency=medium
 
   * Use keyboard driver LED endpoints
