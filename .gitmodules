@@ -5,7 +5,7 @@
 	path = sharp-drm-1.5/module
 	url = git@github.com:ardangelo/sharp-drm-driver.git
 [submodule "beepy-symbol-overlay-1.0/module"]
-	path = beepy-symbol-overlay-1.1/module
+	path = beepy-symbol-overlay-1.2/module
 	url = git@github.com:ardangelo/beepy-symbol-overlay.git
 [submodule "beepy-tmux-menus/module"]
 	path = beepy-tmux-menus-1.0/module

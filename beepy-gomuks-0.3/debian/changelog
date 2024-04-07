@@ -1,3 +1,9 @@
+beepy-gomuks (0.3-6) bookworm; urgency=medium
+
+  * Specify armhf compiler version
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 31 Mar 2024 20:00:37 -0500
+
 beepy-gomuks (0.3-5) bookworm; urgency=medium
 
   * Support --headless polling option

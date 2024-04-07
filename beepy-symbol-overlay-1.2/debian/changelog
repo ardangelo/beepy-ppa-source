@@ -1,3 +1,9 @@
+beepy-symbol-overlay (1.2-1) bookworm; urgency=medium
+
+  * Display toolbelt reference
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 06 Apr 2024 16:07:55 -0500
+
 beepy-symbol-overlay (1.1-2) bookworm; urgency=medium
 
   * Add meta mode option
