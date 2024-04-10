@@ -1,3 +1,9 @@
+beepy-kbd (2.10-1) bookworm; urgency=medium
+
+  * Support firmware auto off
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Wed, 10 Apr 2024 15:40:28 -0500
+
 beepy-kbd (2.9-3) bookworm; urgency=medium
 
   * Update recommended firmware to 3.5

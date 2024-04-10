@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Firmware file installed, but must be applied by running"
+echo "    sudo update-beepy-fw"
+
+if [ -f /sys/firmware/beepy/fw_version ]; then
+	/sbin/update-beepy-fw --check &>/dev/null
+fi

@@ -1,3 +1,9 @@
+beepy-fw (3.6-1) bookworm; urgency=medium
+
+  * Power save
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Wed, 10 Apr 2024 17:48:51 -0500
+
 beepy-fw (3.5-1) bookworm; urgency=medium
 
   * Additional LED flash modes
