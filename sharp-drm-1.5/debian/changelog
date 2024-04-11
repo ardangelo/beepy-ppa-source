@@ -1,3 +1,9 @@
+sharp-drm (1.5-4) bookworm; urgency=medium
+
+  * Blank screen on unload
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Wed, 10 Apr 2024 18:51:07 -0500
+
 sharp-drm (1.5-3) bookworm; urgency=medium
 
   * Fix build on Linux 6.6
