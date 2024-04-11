@@ -9,6 +9,8 @@ FW_DIR="/usr/lib/beepy-firmware"
 FW_VERSION_FILE="/sys/firmware/beepy/fw_version"
 FW_UPDATE_FILE="/sys/firmware/beepy/fw_update"
 SHUTDOWN_GRACE_FILE="/sys/module/beepy_kbd/parameters/shutdown_grace"
+FW_UPDATE_AVAILABLE="/etc/beepy-fw-available"
+AUTO_CLEAR_PATH="/sys/module/sharp_drm/parameters/auto_clear"
 
 # Parse string "X.Y" into (X, Y)
 def parse_ver(raw_ver):
@@ -59,6 +61,7 @@ if (len(sys.argv) > 2) or ((len(sys.argv) == 2) and (sys.argv[1] == '--help')):
 	print(f'{sys.argv[0]}\n    select from list of newer firmware')
 	print(f'{sys.argv[0]} <path>\n    install firmware from path')
 	print(f'{sys.argv[0]} --list\n    list all available firmware files')
+	print(f'{sys.argv[0]} --check\n check if update is available')
 	print('The system will reboot to apply a successful firmware update')
 	exit(0)
 
@@ -77,6 +80,17 @@ if (len(sys.argv) == 2) and (sys.argv[1] == '--list'):
 		for ver in older:
 			print(f'     {ver[0]}.{ver[1]}: {paths[ver]}')
 		print()
+	exit(0)
+
+# --check
+if (len(sys.argv) == 2) and (sys.argv[1] == '--check'):
+	if len(newer) > 0:
+		if not os.path.isfile(FW_UPDATE_AVAILABLE):
+			open(FW_UPDATE_AVAILABLE, 'a').close()
+		print(f'Firmware update available: {newer[0][0]}.{newer[0][1]}')
+		print(f'Run `sudo update-beepy-fw` to update')
+	else:
+		print(f'Firmware up to date!')
 	exit(0)
 
 # <path>
@@ -102,13 +116,49 @@ elif len(sys.argv) == 1:
 		print(f'invalid index {idx}')
 		exit(0)
 
+# Disable screen clear on reboot
+auto_clear_contents = None
+if os.path.isfile(AUTO_CLEAR_PATH):
+	with open(AUTO_CLEAR_PATH, 'r') as f:
+		auto_clear_contents = f.read()
+	with open(AUTO_CLEAR_PATH, 'a') as f:
+		f.write('0\n')
+		f.flush()
+def restore_auto_clear():
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+def set_led(flash):
+	if os.path.isfile('/sys/firmware/beepy/led'):
+		with open('/sys/firmware/beepy/led_red', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/beepy/led_green', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/beepy/led_blue', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/beepy/led', 'w') as f:
+			f.write('3\n' if flash else '0\n')
+
+
 print(f'Installing {firmware_path}...')
 try:
+	set_led(True)
+
 	with open(firmware_path, 'rb') as fw_in:
 		with open(FW_UPDATE_FILE, 'wb') as fw_out:
 			for line in fw_in:
 				fw_out.write(line)
+
+	if os.path.isfile(FW_UPDATE_AVAILABLE):
+		os.remove(FW_UPDATE_AVAILABLE)
+
 except IOError as ex:
+	set_led(False)
+
 	print(f'Update failed: {ex}')
 	print('Firmware was not updated.', end='')
 
@@ -117,9 +167,27 @@ except IOError as ex:
 		print(subprocess.check_output('dmesg | tail -n3', shell=True).decode())
 	else:
 		print()
-	exit(0)
+
+	# Restore auto clear
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+
+	exit(1)
+
 except Exception as ex:
+	set_led(False)
+
 	print(f'Update failed: {ex}')
 	print('Firmware was not updated.')
+
+	# Restore auto clear
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+
+	exit(1)
 
 print(f'Update applied. Please wait until system powers back on in {shutdown_grace} seconds')

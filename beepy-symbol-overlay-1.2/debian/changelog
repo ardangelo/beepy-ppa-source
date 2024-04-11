@@ -1,3 +1,9 @@
+beepy-symbol-overlay (1.2-2) bookworm; urgency=medium
+
+  * Include toolbelt reference
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Wed, 10 Apr 2024 19:37:48 -0500
+
 beepy-symbol-overlay (1.2-1) bookworm; urgency=medium
 
   * Display toolbelt reference

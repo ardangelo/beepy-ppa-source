@@ -1,0 +1,3 @@
+update-beepy-fw /sbin/
+*.hex /usr/lib/beepy-firmware/
+fw-update-check.sh /etc/profile.d/
