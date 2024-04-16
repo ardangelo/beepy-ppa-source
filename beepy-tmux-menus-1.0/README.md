@@ -1,3 +1,8 @@
+---
+title: Beepy Tmux Menus
+layout: default
+---
+
 # Beepy Tmux Menus
 
 ## User Guide
