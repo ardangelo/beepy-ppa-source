@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Source configuration file
+if [ ! -f "/etc/beepy-idle.conf" ]; then
+	exit 0
+fi
+. /etc/beepy-idle.conf
+
+# Check time since last key
+if [ ! -f "/sys/firmware/beepy/last_keypress" ]; then
+	exit 0
+fi
+idle_ms=$((IDLE_TIME * 60 * 1000))
+idle_since=$(cat /sys/firmware/beepy/last_keypress)
+if (( idle_since < 0 )) || (( idle_ms > idle_since )); then
+	exit 0
+fi
+
+# Check SSH connections
+if netstat -tnpa 2>/dev/null | grep -q 'ESTABLISHED'; then
+	echo "SSH connected, won't shut down"
+	exit 0
+fi
+
+list_tmux_commands() {
+	for dir in /tmp/tmux-*; do
+		if [ ! -S "$dir/default" ]; then
+			continue
+		fi
+
+		tmux -S "$dir/default" list-panes -aF "#{pane_current_command}"
+	done
+}
+
+# Check against list of allowed commands
+tmux_commands="$(list_tmux_commands)"
+if [ -z "$tmux_commands" ]; then
+	echo "tmux not running, won't check foreground processes"
+	exit 0
+fi
+
+allow_shutdown=1
+for fg_proc in $(list_tmux_commands); do
+	any_allowed=0
+	for allowed_proc in $ALLOW_PROCS; do
+		if [ "$fg_proc" == "$allowed_proc" ]; then
+			any_allowed=1
+			break
+		fi
+	done
+	if (( any_allowed == 0 )); then
+		echo "$fg_proc not in list $ALLOW_PROCS"
+		allow_shutdown=0
+		break
+	fi
+done
+
+if (( allow_shutdown == 1 )); then
+	echo "Powering off due to key idle"
+	/sbin/shutdown
+fi
