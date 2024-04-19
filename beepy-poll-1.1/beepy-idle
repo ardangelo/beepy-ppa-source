@@ -57,5 +57,5 @@ done
 
 if (( allow_shutdown == 1 )); then
 	echo "Powering off due to key idle"
-	/sbin/shutdown
+	/sbin/shutdown now
 fi
