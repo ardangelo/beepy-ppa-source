@@ -12,7 +12,7 @@ if [ ! -f "/sys/firmware/beepy/last_keypress" ]; then
 fi
 idle_ms=$((IDLE_TIME * 60 * 1000))
 idle_since=$(cat /sys/firmware/beepy/last_keypress)
-if (( idle_since < 0 )) || (( idle_ms > idle_since )); then
+if (( IDLE_TIME == 0 )) || (( idle_since < 0 )) || (( idle_ms > idle_since )); then
 	exit 0
 fi
 
