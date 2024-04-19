@@ -1,3 +1,9 @@
+beepy-kbd (2.11-2) bookworm; urgency=medium
+
+  * Show indicator for touch mode
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Fri, 19 Apr 2024 18:48:56 -0500
+
 beepy-kbd (2.11-1) bookworm; urgency=medium
 
   * Track time since last keypress
