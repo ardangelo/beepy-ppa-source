@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_installsystemd:
+	dh_installsystemd --name=beepy-idle beepy-idle.service --no-start --no-enable
+	dh_installsystemd --name=beepy-idle beepy-idle.timer --no-start --no-enable

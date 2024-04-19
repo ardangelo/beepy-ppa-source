@@ -1,0 +1,8 @@
+[Unit]
+Description=Beepy idle shutdown check
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/beepy-idle
+StandardOutput=journal
+StandardError=journal

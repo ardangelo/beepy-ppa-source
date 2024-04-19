@@ -1,0 +1,10 @@
+[Unit]
+Description=Beepy idle shutdown check
+
+[Timer]
+OnBootSec=1m
+OnUnitActiveSec=1m
+Unit=beepy-idle.service
+
+[Install]
+WantedBy=timers.target
