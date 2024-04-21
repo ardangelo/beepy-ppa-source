@@ -1,3 +1,9 @@
+beepy-tmux-menus (1.0-2) bookworm; urgency=medium
+
+  * Add manpage
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 21 Apr 2024 18:55:42 -0500
+
 beepy-tmux-menus (1.0-1) bookworm; urgency=medium
 
   * Customized tmux menu plugins

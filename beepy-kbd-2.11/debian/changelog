@@ -1,3 +1,9 @@
+beepy-kbd (2.11-3) bookworm; urgency=medium
+
+  * Add manpage
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 21 Apr 2024 18:28:23 -0500
+
 beepy-kbd (2.11-2) bookworm; urgency=medium
 
   * Show indicator for touch mode

@@ -1,3 +1,9 @@
+sharp-drm (1.5-6) bookworm; urgency=medium
+
+  * Add manpage
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 21 Apr 2024 18:57:04 -0500
+
 sharp-drm (1.5-5) bookworm; urgency=medium
 
   * Configurable blank screen on unload
