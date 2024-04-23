@@ -65,7 +65,7 @@ On first setup of Beepy Raspbian, you will be presented with an option to either
 
 The Pi will not shut down unless it has been a configurable amount of minutes since the last keypress, or if Tmux is running an active foreground process.
 
-The timeout and allowed processes can be configured by editing the file at `/etc/beepy-idle`. By default, if Tmux is running any process other than `bash` or `gomuks`, idle will be inhibited.
+The timeout and allowed processes can be configured by editing the file at `/etc/beepy-idle.conf`. By default, if Tmux is running any process other than `bash` or `gomuks`, idle will be inhibited.
 
     # Automatic idle shutdown time in minutes
     # since last keypress. Change to 0 to disable
