@@ -581,9 +581,12 @@ deep sleep
 \f[V]1\f[R] \f[V]CF2_USB_KEYB_ON\f[R] Send keyboard events over USB
 .IP \[bu] 2
 \f[V]0\f[R] \f[V]CF2_TOUCH_INT\f[R] Generate interrupt for trackpad
-event
+event.
+Should only be enabled when ready to accept touch input, otherwise touch
+events will accumulate and be sent all at once when interrupts are
+activated
 .PP
-Default value: \f[V]CF2_TOUCH_INT | CF2_AUTO_OFF\f[R]
+Default value: \f[V]0\f[R] (cleared)
 .SS \f[V]0x15\f[R] \f[V]REG_ID_TOX\f[R]
 .PP
 Read-only, 1 byte.

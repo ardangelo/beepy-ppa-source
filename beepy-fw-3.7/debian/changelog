@@ -1,3 +1,9 @@
+beepy-fw (3.7-1) bookworm; urgency=medium
+
+  * Fix touch accumulation
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Wed, 01 May 2024 18:29:00 -0500
+
 beepy-fw (3.6-2) bookworm; urgency=medium
 
   * Include manpage
