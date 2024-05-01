@@ -1,3 +1,9 @@
+sharp-drm (1.5-7) bookworm; urgency=medium
+
+  * Copy overlay pixels from userspace if possible
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Tue, 30 Apr 2024 19:48:18 -0500
+
 sharp-drm (1.5-6) bookworm; urgency=medium
 
   * Add manpage

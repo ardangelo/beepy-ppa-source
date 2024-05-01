@@ -3,7 +3,7 @@ Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
 Build-Depends: debhelper (>= 11), dkms
 
 Package: sharp-drm
-Architecture: armhf
+Architecture: armhf arm64
 Depends: ${misc:Depends}
 Section: embedded
 Description: Display driver for the Beepy device

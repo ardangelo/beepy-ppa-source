@@ -66,20 +66,19 @@ modes mapped by the keyboard driver.
 You will see different types of indicators in the top right corner of
 the screen depending on the mode:
 .IP \[bu] 2
-[IMAGE: Shift indicator] Shift modifier
+Shift modifier
 .IP \[bu] 2
-[IMAGE: Phys.
-Alt indicator] Physical Alt modifier
+Physical Alt modifier
 .IP \[bu] 2
-[IMAGE: Control indicator] Control modifier
+Control modifier
 .IP \[bu] 2
-[IMAGE: Alt indicator] Alt modifier
+Alt modifier
 .IP \[bu] 2
-[IMAGE: Symbol mode indicator] Symbol mode modifier
+Symbol mode modifier
 .IP \[bu] 2
-[IMAGE: Meta mode indicator] Meta mode modifier
+Meta mode modifier
 .IP \[bu] 2
-[IMAGE: Touch mode indicator] Touchpad mode modifier
+Touchpad mode modifier
 .SS Basic key mappings
 .PP
 From left to right, the top row of the Beepy keyboard has the following
@@ -133,8 +132,7 @@ The alternate symbols printed directly on the keys are sent by pressing
 the \f[V]Physical Alt\f[R] key on the bottom left corner of the
 keyboard, then pressing the key on which the desired symbol is printed.
 While \f[V]Physical Alt\f[R] is active, you will see an \f[V]a\f[R]
-indicator in the top right corner of the screen: [IMAGE: Physical Alt
-indicator].
+indicator in the top right corner of the screen: .
 The combination \f[V]Physical Alt\f[R] + \f[V]Enter\f[R] is also mapped
 to \f[V]Tab\f[R].
 \f[V]Physical Alt\f[R] is a \[lq]sticky modifier key\[rq].
@@ -142,7 +140,7 @@ to \f[V]Tab\f[R].
 For additional symbols not printed directly on the keys, use the
 \f[V]Symbol\f[R] key on the bottom row of the keyboard.
 While \f[V]Symbol\f[R] is active, you will see an \f[V]S\f[R] indicator
-in the top right of the screen: [IMAGE: Symbol indicator].
+in the top right of the screen: .
 Internally, \f[V]Symbol\f[R] sends AltGr (Right Alt), which is mapped to
 more symbols via the keymap file at
 \f[V]/usr/share/kbd/keymaps/beepy-kbd.map\f[R].
@@ -168,20 +166,16 @@ Holding a modifier key while typing an alpha key will apply the modifier
 to all alpha keys until the modifier is released.
 .PP
 While a modifier key is active, visual indicators are drawn in the top
-right corner of the display, with indicators for [IMAGE: Shift
-indicator] Shift, [IMAGE: Physical Alt indicator] Physical Alt,
-[IMAGE: Control indicator] Control, [IMAGE: Alt indicator] Alt,
-[IMAGE: Symbol mode indicator] Symbol, [IMAGE: Meta mode indicator] Meta
-mode, and [IMAGE: Touch mode indicator] Touchpad mode.
+right corner of the display, with indicators for Shift, Physical Alt,
+Control, Alt, Symbol, Meta mode, and Touchpad mode.
 .PP
 For example, to type a dot \f[V].\f[R], you can use
 \f[V]Physical Alt\f[R] sticky mode:
 .IP \[bu] 2
 Press and release the \f[V]Physical Alt\f[R] key
 .IP \[bu] 2
-The \f[V]a\f[R] indicator [IMAGE: Physical Alt indicator] appears,
-showing that \f[V]Physical Alt\f[R] mode will be applied to the next
-keypress only
+The \f[V]a\f[R] indicator appears, showing that \f[V]Physical Alt\f[R]
+mode will be applied to the next keypress only
 .IP \[bu] 2
 Type the \f[V]M\f[R] key to input a dot \f[V].\f[R]
 .IP \[bu] 2
@@ -192,8 +186,8 @@ Alternatively, to type a dot \f[V].\f[R] followed by a comma
 .IP \[bu] 2
 Press the \f[V]Physical Alt\f[R] key
 .IP \[bu] 2
-The \f[V]a\f[R] indicator [IMAGE: Physical Alt indicator] appears,
-showing that \f[V]Physical Alt\f[R] mode is active
+The \f[V]a\f[R] indicator appears, showing that \f[V]Physical Alt\f[R]
+mode is active
 .IP \[bu] 2
 While holding \f[V]Physical Alt\f[R], type the \f[V]M\f[R] key to input
 a dot \f[V].\f[R]
@@ -209,10 +203,9 @@ The \f[V]a\f[R] indicator disappears
 Meta mode is a modal layer that assists in rapidly moving the cursor and
 scrolling with single keypresses.
 To enter Meta mode, click the \f[V]Berry\f[R] key once.
-The Meta mode indicator [IMAGE: Meta mode indicator] will appear in the
-top right corner of the screen, and the following keymap will be applied
-until Meta mode is dismissed using the \f[V]Back\f[R] key, or otherwise
-noted:
+The Meta mode indicator will appear in the top right corner of the
+screen, and the following keymap will be applied until Meta mode is
+dismissed using the \f[V]Back\f[R] key, or otherwise noted:
 .IP \[bu] 2
 \f[V]E\f[R] Up \f[V]S\f[R] Down \f[V]W\f[R] Left \f[V]D\f[R] Right
 .RS 2
@@ -266,8 +259,8 @@ module parameters.
 .PP
 Press the touchpad itself to turn on touchpad mode, and start sending
 arrow keys when you move your finger across the touchpad.
-While active, you will see the touchpad indicator [IMAGE: Touchpad
-indicator] in the top-right corner of the screen.
+While active, you will see the touchpad indicator in the top-right
+corner of the screen.
 .PP
 Clicking the touchpad itself again while the touchpad is active will
 send \f[V]Enter\f[R].
@@ -275,13 +268,12 @@ Pressing the \f[V]Back\f[R] key will exit touchpad mode.
 .PP
 You can also hold the \f[V]Shift\f[R] key to temporarily turn on the
 touchpad until the \f[V]Shift\f[R] key is released.
-You will see the Shift indicator [IMAGE: Shift indicator] instead of the
-touch indicator.
+You will see the Shift indicator instead of the touch indicator.
 .PP
 If you release the \f[V]Shift\f[R] key \f[I]without\f[R] using the
 touchpad, you will instead get the sticky modifier behavior of applying
 Shift to the next alpha keypress.
-In this case, the [IMAGE: Shift indicator] will remain on the screen.
+In this case, the Shift indicator will remain on the screen.
 Press and release the \f[V]Shift\f[R] key again to un-stick the modifier
 and hide the indicator.
 .SS \f[V]sysfs\f[R] interface
@@ -414,6 +406,10 @@ Default \f[V]16\f[R].
 Touchpad LED power setting.
 \f[V]high\f[R] is recommended for reliable input.
 Default \f[V]high\f[R].
+.IP \[bu] 2
+\f[V]touch_threshold\f[R] Touchpad movement amount required to send
+arrow key.
+Range \f[V]0 - 255\f[R], default \f[V]8\f[R].
 .IP \[bu] 2
 \f[V]shutdown_grace\f[R] To avoid powering off the Pi while it is still
 running, this is set to the number of seconds to wait between a shutdown

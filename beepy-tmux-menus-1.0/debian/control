@@ -3,7 +3,7 @@ Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
 Build-Depends: debhelper (>= 11)
 
 Package: beepy-tmux-menus
-Architecture: armhf
+Architecture: armhf arm64
 Depends: ${misc:Depends}
 Section: embedded
 Description: Beepy tmux menus plugin

@@ -3,7 +3,7 @@ Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
 Build-Depends:
 
 Package: beepy-poll
-Architecture: armhf
+Architecture: armhf arm64
 Depends: ${misc:Depends} screen
 Section: embedded
 Description: Beepy boot polling service 
