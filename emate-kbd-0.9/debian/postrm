@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Remove auto-load module line and create a backup file
+sed -i.save '/emate-kbd/d' /etc/modules
+
+# Remove configuration line and create a backup file
+sed -i.save '/dtoverlay=emate-kbd/d' /boot/config.txt
+
+# Remove device tree overlay
+rm -f /boot/overlays/emate-kbd.dtbo

@@ -1,0 +1,3 @@
+update-emate-fw /sbin/
+*.hex /usr/lib/emate-firmware/
+fw-update-check.sh /etc/profile.d/

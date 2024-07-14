@@ -1,3 +1,9 @@
+beepy-fw (3.8-1) bookworm; urgency=medium
+
+  * Clear input queued while Pi was off
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sat, 04 May 2024 06:14:34 -0500
+
 beepy-fw (3.7-1) bookworm; urgency=medium
 
   * Fix touch accumulation

@@ -13,3 +13,6 @@
 [submodule "beepy-gomuks-1.0/module"]
 	path = beepy-gomuks-0.3/module
 	url = git@github.com:ardangelo/gomuks.git
+[submodule "emate-kbd-0.9/module"]
+	path = emate-kbd-0.9/module
+	url = git@github.com:ardangelo/beepberry-keyboard-driver.git

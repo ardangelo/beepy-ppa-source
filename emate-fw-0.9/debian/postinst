@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Firmware file installed, but must be applied by running"
+echo "    sudo update-emate-fw"
+
+if [ -f /sys/firmware/emate/fw_version ]; then
+	/sbin/update-emate-fw --check &>/dev/null
+fi

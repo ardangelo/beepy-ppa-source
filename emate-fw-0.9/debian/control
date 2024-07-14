@@ -1,0 +1,8 @@
+Source: emate-fw
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+
+Package: emate-fw
+Architecture: armhf arm64
+Depends: ${misc:Depends} python3
+Section: embedded
+Description: eMate-CM4 keyboard firmware and installer script

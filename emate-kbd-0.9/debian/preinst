@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+MODULE_NAME=emate_kbd
+VER_REG=0x01
+REQ_MAJOR=0
+REQ_MINOR=9
+SUG_MINOR=0
+RELEASE_PAGE="https://github.com/ardangelo/emate-cm4-fw/releases/tag/v$REQ_MAJOR.$SUG_MINOR"
+
+# Get firmware version
+
+# Available from driver
+if [ -f /sys/firmware/emate/fw_version ]; then
+	IFS=. read -r major minor <<< $(cat /sys/firmware/emate/fw_version)
+
+# Use I2C
+else
+
+	# Module must be unloaded to use i2cget
+	if grep "^$MODULE_NAME " /proc/modules >/dev/null; then
+		rmmod $MODULE_NAME 2>/dev/null \
+			|| echo "warning: $MODULE_NAME failed to unload"
+	fi
+	if ! raw_ver=$(i2cget -y 1 0x1F $VER_REG b); then
+		echo "warning: failed to check firmware version (I2C might not be enabled yet)"
+		exit 0
+	fi
+	if modprobe -n $MODULE_NAME 2>/dev/null; then
+		modprobe $MODULE_NAME 2>/dev/null \
+			|| echo "warning: $MODULE_NAME failed to load"
+	fi
+
+	# Parse firmware version
+	major=${raw_ver:2:1}
+	minor=${raw_ver:3:1}
+fi
+
+# Check firmware version
+if [ $major -ne $REQ_MAJOR ] || [ $minor -lt $REQ_MINOR ]; then
+	echo "error: driver requires firmware version $REQ_MAJOR.$REQ_MINOR" \
+		"(firmware has version $major.$minor)"
+	echo "update the emate-fw package and run"
+	echo "    /sbin/update-emate-fw"
+	echo -e "or manually install the firmware release from\n    $RELEASE_PAGE"
+	exit 1
+fi
+if [ $minor -lt $SUG_MINOR ]; then
+	echo "warning: installed firmware version $major.$minor is compatible," \
+		"but out of date (driver may use features from version $REQ_MAJOR.$SUG_MINOR)"
+	echo "consider updating the emate-fw package to $REQ_MAJOR.$SUG_MINOR and run"
+	echo "    /sbin/update-emate-fw"
+	echo -e "or manually install the firmware release from\n    $RELEASE_PAGE"
+fi
+
+echo "Firmware version $major.$minor passes module requirement"

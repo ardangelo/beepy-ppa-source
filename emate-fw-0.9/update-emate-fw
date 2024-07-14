@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import subprocess
+
+FW_DIR="/usr/lib/emate-firmware"
+
+FW_VERSION_FILE="/sys/firmware/emate/fw_version"
+FW_UPDATE_FILE="/sys/firmware/emate/fw_update"
+SHUTDOWN_GRACE_FILE="/sys/module/emate_kbd/parameters/shutdown_grace"
+FW_UPDATE_AVAILABLE="/etc/emate-fw-available"
+AUTO_CLEAR_PATH="/sys/module/sharp_drm/parameters/auto_clear"
+
+# Parse string "X.Y" into (X, Y)
+def parse_ver(raw_ver):
+	raw_vers = raw_ver.strip().split('.')
+	return (int(raw_vers[0]), int(raw_vers[1]))
+
+# Get the installed firmware version
+try:
+	with open(FW_VERSION_FILE, 'r') as file:
+		fw_ver = parse_ver(file.read())
+except:
+	print(f'Could not read firmware version file at {FW_VERSION_FILE}')
+	print('Ensure that the emate-kbd driver is loaded')
+
+# Get shutdown grace time
+try:
+	with open(SHUTDOWN_GRACE_FILE, 'r') as file:
+		shutdown_grace = file.read().strip()
+except:
+	shutdown_grace = 'some'
+	pass
+
+# Map available versions to paths
+paths = {}
+try:
+	for f in os.listdir(FW_DIR):
+		try:
+			# emate_X.Y.hex
+			X_Y_hex = f.rsplit('_', maxsplit=1)[1]
+			X_Y = X_Y_hex.rsplit('.', maxsplit=1)[0]
+			ver = parse_ver(X_Y)
+			paths[ver] = f
+		except:
+			pass
+except:
+	pass
+
+# List newer, older, and installed firmvware files
+newer = sorted(filter(lambda ver: fw_ver < ver, paths.keys()), reverse=True)
+older = sorted(filter(lambda ver: fw_ver > ver, paths.keys()), reverse=True)
+installed = sorted(filter(lambda ver: fw_ver == ver, paths.keys()))
+
+print(f'emate firmware updater')
+
+# --help
+if (len(sys.argv) > 2) or ((len(sys.argv) == 2) and (sys.argv[1] == '--help')):
+	print('usage:')
+	print(f'{sys.argv[0]}\n    select from list of newer firmware')
+	print(f'{sys.argv[0]} <path>\n    install firmware from path')
+	print(f'{sys.argv[0]} --list\n    list all available firmware files')
+	print(f'{sys.argv[0]} --check\n check if update is available')
+	print('The system will reboot to apply a successful firmware update')
+	exit(0)
+
+print(f'Installed firmware: {fw_ver[0]}.{fw_ver[1]}')
+
+# --list
+if (len(sys.argv) == 2) and (sys.argv[1] == '--list'):
+	if len(installed) > 0:
+		print(f'Installed firmware in {FW_DIR}:')
+		for ver in installed:
+			print(f'     {ver[0]}.{ver[1]}: {paths[ver]}')
+		print()
+
+	if len(older) > 0:
+		print(f'Older firmware in {FW_DIR}:')
+		for ver in older:
+			print(f'     {ver[0]}.{ver[1]}: {paths[ver]}')
+		print()
+	exit(0)
+
+# --check
+if (len(sys.argv) == 2) and (sys.argv[1] == '--check'):
+	if len(newer) > 0:
+		if not os.path.isfile(FW_UPDATE_AVAILABLE):
+			open(FW_UPDATE_AVAILABLE, 'a').close()
+		print(f'Firmware update available: {newer[0][0]}.{newer[0][1]}')
+		print(f'Run `sudo update-emate-fw` to update')
+	else:
+		print(f'Firmware up to date!')
+	exit(0)
+
+# <path>
+elif len(sys.argv) == 2:
+	firmware_path = sys.argv[1]
+
+# Select from list of newer firmware files
+elif len(sys.argv) == 1:
+
+	# Enumerate newer available firmware
+	print(f'Newer firmware in {FW_DIR}:')
+	if len(newer) > 0:
+		for (i, ver) in enumerate(newer):
+			print(f'[{i: >2}] {ver[0]}.{ver[1]}: {paths[ver]}')
+	else:
+		print('    (None found)')
+		exit(0)
+
+	idx = input("Enter number of newer firmware to install: ")
+	try:
+		firmware_path = FW_DIR + '/' + paths[newer[int(idx)]]
+	except:
+		print(f'invalid index {idx}')
+		exit(0)
+
+# Disable screen clear on reboot
+auto_clear_contents = None
+if os.path.isfile(AUTO_CLEAR_PATH):
+	with open(AUTO_CLEAR_PATH, 'r') as f:
+		auto_clear_contents = f.read()
+	with open(AUTO_CLEAR_PATH, 'a') as f:
+		f.write('0\n')
+		f.flush()
+def restore_auto_clear():
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+def set_led(flash):
+	if os.path.isfile('/sys/firmware/emate/led'):
+		with open('/sys/firmware/emate/led_red', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/emate/led_green', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/emate/led_blue', 'w') as f:
+			f.write('64\n')
+			f.flush()
+		with open('/sys/firmware/emate/led', 'w') as f:
+			f.write('3\n' if flash else '0\n')
+
+
+print(f'Installing {firmware_path}...')
+try:
+	set_led(True)
+
+	with open(firmware_path, 'rb') as fw_in:
+		with open(FW_UPDATE_FILE, 'wb') as fw_out:
+			for line in fw_in:
+				fw_out.write(line)
+
+	if os.path.isfile(FW_UPDATE_AVAILABLE):
+		os.remove(FW_UPDATE_AVAILABLE)
+
+except IOError as ex:
+	set_led(False)
+
+	print(f'Update failed: {ex}')
+	print('Firmware was not updated.', end='')
+
+	if ex.errno != 13: # Permission denied
+		print(' dmesg output:')
+		print(subprocess.check_output('dmesg | tail -n3', shell=True).decode())
+	else:
+		print()
+
+	# Restore auto clear
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+
+	exit(1)
+
+except Exception as ex:
+	set_led(False)
+
+	print(f'Update failed: {ex}')
+	print('Firmware was not updated.')
+
+	# Restore auto clear
+	if os.path.isfile(AUTO_CLEAR_PATH) and auto_clear_contents is not None:
+		with open(AUTO_CLEAR_PATH, 'a') as f:
+			f.write(auto_clear_contents)
+			f.flush()
+
+	exit(1)
+
+print(f'Update applied. Please wait until system powers back on in {shutdown_grace} seconds')

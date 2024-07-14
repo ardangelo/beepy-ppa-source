@@ -1,0 +1,9 @@
+Source: emate-kbd
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11), dkms, dh-dkms
+
+Package: emate-kbd
+Architecture: armhf arm64
+Depends: ${misc:Depends}, i2c-tools, emate-fw (>= 0.9)
+Section: embedded
+Description: Keyboard and firmware driver for Emate conversion board
