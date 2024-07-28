@@ -1,0 +1,5 @@
+impala-wifi (0.3-1) bookworm; urgency=medium
+
+  * Impala fork from https://github.com/ardangelo/impala/tree/beepy
+
+ -- Andrew D'Angelo <dangeloandrew@outlook.com>  Sun, 28 Jul 2024 17:57:29 -0500

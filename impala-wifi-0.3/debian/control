@@ -1,0 +1,9 @@
+Source: impala-wifi
+Maintainer: Andrew D'Angelo <dangeloandrew@outlook.com>
+Build-Depends: debhelper (>= 11)
+
+Package: impala-wifi
+Architecture: armhf arm64
+Depends: ${misc:Depends}
+Section: embedded
+Description: Impala WiFi manager fork

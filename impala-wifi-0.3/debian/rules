@@ -1,0 +1,27 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+ifeq ($(DEB_HOST_ARCH),armhf)
+	cd module && CARGO_TARGET_ARMV7_UNKNOWN_LINUX_GNUEABIHF_LINKER=/usr/bin/arm-linux-gnueabihf-gcc \
+		cargo build --target armv7-unknown-linux-gnueabihf --release
+else ifeq ($(DEB_HOST_ARCH),arm64)
+	cd module && CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc \
+		cargo build --target aarch64-unknown-linux-gnu --release
+else
+	echo "Unsupported architecture: $(DEB_BUILD_ARCH)"
+	exit 1
+endif
+
+
+override_dh_auto_install:
+	dh_install
+ifeq ($(DEB_HOST_ARCH),armhf)
+	install -D -m 0755 module/target/armv7-unknown-linux-gnueabihf/release/impala \
+		 debian/impala-wifi/usr/bin/impala
+else ifeq ($(DEB_HOST_ARCH),arm64)
+	install -D -m 0755 module/target/aarch64-unknown-linux-gnu/release/impala \
+		 debian/impala-wifi/usr/bin/impala
+endif

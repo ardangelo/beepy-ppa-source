@@ -13,3 +13,6 @@
 [submodule "beepy-gomuks-1.0/module"]
 	path = beepy-gomuks-0.3/module
 	url = git@github.com:ardangelo/gomuks.git
+[submodule "impala-wifi-1.0/module"]
+	path = impala-wifi-0.3/module
+	url = git@github.com:ardangelo/impala.git
