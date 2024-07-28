@@ -24,6 +24,7 @@ try:
 except:
 	print(f'Could not read firmware version file at {FW_VERSION_FILE}')
 	print('Ensure that the emate-kbd driver is loaded')
+	exit(1)
 
 # Get shutdown grace time
 try:
